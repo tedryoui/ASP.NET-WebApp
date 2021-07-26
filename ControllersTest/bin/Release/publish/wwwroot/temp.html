@@ -1,0 +1,90 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewData["MyNewWebPage"]</title>
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <button type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light" id="deselect-all">
+                    <i class="far fa-square"></i>
+                </button>
+            </li>
+            <li class="nav-item ml-2">
+                <button type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light" id="select-all">
+                    <i class="far fa-check-square"></i>
+                </button>
+            </li>
+            <li class="nav-item ml-2">
+                <button type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light">
+                    <i class="fas fa-user-lock"></i>
+                </button>
+            </li>
+            <li class="nav-item ml-2">
+                <button type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light">
+                    <i class="fas fa-user-check"></i>
+                </button>
+            </li>
+            <li class="nav-item ml-2">
+                <button type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light">
+                    <i class="fas fa-user-slash"></i>
+                </button>
+            </li>
+        </ul>
+        <div class="form-inline my-2 my-lg-0">
+            
+            <i class="fas fa-user"></i>
+            <b class="mr-5">User</b>
+            <!--<form method="post" asp-controller="Account" asp-action="Logout">-->
+                <button type="submit" class="btn btn-outline-primary">Выйти</button>
+            <!--</form>-->
+        </div>
+    </div>
+</nav>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Выбрать</th>
+        <th scope="col">Номер</th>
+        <th scope="col">Имя</th>
+        <th scope="col">Почта</th>
+        <th scope="col">Дата регистрации</th>
+        <th scope="col">Последний раз входил</th>
+        <th scope="col">Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row"><input class="ml-5" name="checkbox" type="checkbox"></th>
+        <td>1</td>
+        <td>Yauheni</td>
+        <td>admin@admin.ad</td>
+        <td>20.10.2002</td>
+        <td>25.12.2013</td>
+        <td>Разблокирован</td>
+    </tr>
+    </tbody>
+</table>
+<script src="lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $('#select-all').click(function(event) {   
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    });
+    $('#deselect-all').click(function(event) {   
+        $(':checkbox').each(function() {
+            this.checked = false;                        
+        });
+    });
+</script>
+<script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

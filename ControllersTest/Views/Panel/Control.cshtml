@@ -1,0 +1,146 @@
+﻿@model IQueryable<ControllersTest.Models.WebAppUser>
+
+@*<!doctype html>
+<html lang="en" class="h-100" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewData["MyNewWebPage"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+</head>
+<body class="h-100">
+<main class="container">
+    @Html.RenderPartialAsync("MenuPartial");
+    <div class="row mt-5">
+        <div class="col-12">
+            <form asp-action="ChangeState" asp-controller="Home">
+                <table class="table">
+                    <tr><td>Имя</td><td>Email</td><td>State</td></tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr><td><input type="checkbox" name="checkbox" value="@item.Email" /></td><td>@item.UserName</td><td>@item.Email</td><td>@item.Blocked</td></tr>
+                    }
+                </table>
+                <input type="submit" value="Change" class="btn btn-default"/>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>*@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewData["MyNewWebPage"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <button type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light" id="deselect-all">
+                        <i class="far fa-square"></i>
+                    </button>
+                </li>
+                <li class="nav-item ml-2">
+                    <button type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light" id="select-all">
+                        <i class="far fa-check-square"></i>
+                    </button>
+                </li>
+                <li class="nav-item ml-2">
+                    <button form="control_form" asp-action="Block" type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light">
+                        <i class="fas fa-user-lock"></i>
+                    </button>
+                </li>
+                <li class="nav-item ml-2">
+                    <button form="control_form" asp-action="UnBlock" type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light">
+                        <i class="fas fa-user-check"></i>
+                    </button>
+                </li>
+                <li class="nav-item ml-2">
+                    <button form="control_form" asp-action="Delete" type="submit" class="btn btn-block btn-primary p-1 pl-2 pr-2 text-light">
+                        <i class="fas fa-user-slash"></i>
+                    </button>
+                </li>
+            </ul>
+            <div class="form-inline my-2 my-lg-0">
+                
+                <i class="fas fa-user"></i>
+                <b class="mr-5">@User.Identity.Name</b>
+                <form method="post" asp-controller="Panel" asp-action="Logout">
+                    <button type="submit" class="btn btn-outline-primary">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+<form asp-controller="Panel" id="control_form">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Выбрать</th>
+            <th scope="col">Номер</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Почта</th>
+            <th scope="col">Дата регистрации</th>
+            <th scope="col">Последний раз входил</th>
+            <th scope="col">Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                i++;
+                string blocked = (item.Blocked) ? "Заблокирован" : "Активен";
+                string regDate = item.RegDate.Day.ToString() + "." + item.RegDate.Month.ToString() + "." + item.RegDate.Year.ToString();
+                string logDate = item.LogDate.Day.ToString() + "." + item.LogDate.Month.ToString() + "." + item.LogDate.Year.ToString() +
+                                 "\n" + item.LogDate.Hour.ToString() + ":" + item.LogDate.Minute.ToString();
+                
+                <tr>
+                    <th scope="row"><input class="ml-5" name="checkboxes" type="checkbox" value="@item.Email" \></th>
+                    <td>@i</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Email</td>
+                    <td>@regDate</td>
+                    <td>@logDate</td>
+                    <td>@blocked</td>
+                </tr>
+            }
+        }
+
+        </tbody>
+    </table>
+</form>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $('#select-all').click(function(event) {   
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    });
+    $('#deselect-all').click(function(event) {   
+        $(':checkbox').each(function() {
+            this.checked = false;                        
+        });
+    });
+    
+    (function() {
+        $(':checkbox').each(function() {
+            this.checked = false;                        
+        });
+    })()
+</script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
